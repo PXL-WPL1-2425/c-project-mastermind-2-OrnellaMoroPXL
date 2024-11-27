@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Threading;
 
 namespace Mastermind
 {
@@ -11,57 +11,69 @@ namespace Mastermind
     /// </summary>
     public partial class MainWindow : Window
     {
-        private DispatcherTimer timer = new DispatcherTimer();
+        private int _attempts = 0;
+
+        private readonly Color[] _colors = new Color[6]
+        {
+            (Color)ColorConverter.ConvertFromString("Red"), // 0
+            (Color)ColorConverter.ConvertFromString("Yellow"), // 1
+            (Color)ColorConverter.ConvertFromString("Orange"), // 2
+            (Color)ColorConverter.ConvertFromString("White"), // 3
+            (Color)ColorConverter.ConvertFromString("Green"), // 4
+            (Color)ColorConverter.ConvertFromString("Blue") // 5
+        };
+
+        private readonly string[] _colorNames = new string[6]
+        {
+            "Red", // 0
+            "Yellow", // 1
+            "Orange", // 2
+            "White", // 3
+            "Green", // 4
+            "Blue" // 5
+        };
+
+        private Color[] _code = new Color[4];
 
         public MainWindow()
         {
             InitializeComponent();
-            timer = new DispatcherTimer();
-            // GeneratedSolution();
+            GenerateColorCode();
         }
 
-        private void GeneratedSolution()
+        private void GenerateColorCode()
         {
-            Random randomColorGenerator = new Random();
-            string solution = "";
+            Random random = new Random();
 
             for (int i = 0; i < 4; i++)
             {
-                int randomColorIndex = randomColorGenerator.Next(6);
+                int randomColorIndex = random.Next(6);
+                _code[i] = _colors[randomColorIndex];
+            }
 
-                switch (randomColorIndex)
+            UpdateTitle();
+        }
+
+        private void UpdateTitle()
+        {
+            Title = $"Mastermind ({string.Join(", ", _code.Select((color) => GetColorName(color)))})";
+            if (_attempts > 0)
+            {
+                Title += $" - Attemps: {_attempts}";
+            }
+        }
+
+        private string GetColorName(Color color)
+        {
+            for (int i = 0; i < _colors.Length; i++)
+            {
+                if (_colors[i] == color)
                 {
-                    case 0:
-                        solution += "Red";
-                        break;
-
-                    case 1:
-                        solution += "Orange";
-                        break;
-
-                    case 2:
-                        solution += "Yellow";
-                        break;
-
-                    case 3:
-                        solution += "Green";
-                        break;
-
-                    case 4:
-                        solution += "Blue";
-                        break;
-
-                    case 5:
-                        solution += "White";
-                        break;
-                }
-                if (i < 3)
-                {
-                    solution += ", ";
+                    return _colorNames[i];
                 }
             }
 
-            //  this.Title = solution;
+            return "Unknown";
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -94,14 +106,12 @@ namespace Mastermind
 
         private void ValidateAnswers_Click(object sender, RoutedEventArgs e)
         {
-            NoBorders();
-            NoBorders();
-            int userAttempts = 0;
-            string attempts = $"Poging {userAttempts}";
-            this.Title = attempts;
+            ClearBorders();
+            _attempts++;
+            UpdateTitle();
         }
 
-        private void NoBorders()
+        private void ClearBorders()
         {
             border1.BorderBrush = Brushes.Transparent;
             border2.BorderBrush = Brushes.Transparent;
