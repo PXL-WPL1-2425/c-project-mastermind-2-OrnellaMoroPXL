@@ -11,19 +11,7 @@ namespace Mastermind
     /// </summary>
     public partial class MainWindow : Window
     {
-        private int _attempts = 0;
-
-        private readonly Color[] _colors = new Color[6]
-        {
-            (Color)ColorConverter.ConvertFromString("Red"), // 0
-            (Color)ColorConverter.ConvertFromString("Yellow"), // 1
-            (Color)ColorConverter.ConvertFromString("Orange"), // 2
-            (Color)ColorConverter.ConvertFromString("White"), // 3
-            (Color)ColorConverter.ConvertFromString("Green"), // 4
-            (Color)ColorConverter.ConvertFromString("Blue") // 5
-        };
-
-        private readonly string[] _colorNames = new string[6]
+        private string[] _colors = new string[6]
         {
             "Red", // 0
             "Yellow", // 1
@@ -33,12 +21,18 @@ namespace Mastermind
             "Blue" // 5
         };
 
-        private Color[] _code = new Color[4];
+        private string[] _code = new string[4];
+        private string[] _playerGuess = new string[4];
+        private Label[] _labels = new Label[4];
 
         public MainWindow()
         {
             InitializeComponent();
             GenerateColorCode();
+            _labels[0] = colorLabel1;
+            _labels[1] = colorLabel2;
+            _labels[2] = colorLabel3;
+            _labels[3] = colorLabel4;
         }
 
         private void GenerateColorCode()
@@ -56,24 +50,7 @@ namespace Mastermind
 
         private void UpdateTitle()
         {
-            Title = $"Mastermind ({string.Join(", ", _code.Select((color) => GetColorName(color)))})";
-            if (_attempts > 0)
-            {
-                Title += $" - Attemps: {_attempts}";
-            }
-        }
-
-        private string GetColorName(Color color)
-        {
-            for (int i = 0; i < _colors.Length; i++)
-            {
-                if (_colors[i] == color)
-                {
-                    return _colorNames[i];
-                }
-            }
-
-            return "Unknown";
+            Title = $"Mastermind ({string.Join(", ", _code)})";
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -87,18 +64,22 @@ namespace Mastermind
 
                 if (comboBox == comboBox1)
                 {
+                    _playerGuess[0] = selectedColor;
                     colorLabel1.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(selectedColor));
                 }
                 else if (comboBox == comboBox2)
                 {
+                    _playerGuess[1] = selectedColor;
                     colorLabel2.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(selectedColor));
                 }
                 else if (comboBox == comboBox3)
                 {
+                    _playerGuess[2] = selectedColor;
                     colorLabel3.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(selectedColor));
                 }
                 else if (comboBox == comboBox4)
                 {
+                    _playerGuess[3] = selectedColor;
                     colorLabel4.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(selectedColor));
                 }
             }
@@ -106,29 +87,19 @@ namespace Mastermind
 
         private void ValidateAnswers_Click(object sender, RoutedEventArgs e)
         {
-            ClearBorders();
-            _attempts++;
-            UpdateTitle();
-        }
-
-        private void ClearBorders()
-        {
-            border1.BorderBrush = Brushes.Transparent;
-            border2.BorderBrush = Brushes.Transparent;
-            border3.BorderBrush = Brushes.Transparent;
-            border4.BorderBrush = Brushes.Transparent;
-        }
-
-        private void ToggleDebug()
-        {
-        }
-
-        private void StartCountDown()
-        {
-        }
-
-        private void DtopCountDown()
-        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (_code[i] == _playerGuess[i])
+                {
+                    _labels[i].BorderBrush = Brushes.DarkRed;
+                    _labels[i].BorderThickness = new Thickness(3);
+                }
+                else if (_code.Contains(_playerGuess[i]))
+                {
+                    _labels[i].BorderBrush = Brushes.Wheat;
+                    _labels[i].BorderThickness = new Thickness(3);
+                }
+            }
         }
     }
 }

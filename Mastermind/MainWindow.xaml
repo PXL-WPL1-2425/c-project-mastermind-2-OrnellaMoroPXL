@@ -52,6 +52,5 @@
             <Label Name="colorLabel4" Width="169" Height="100" />
         </Border>
         <Button Content="check answers" HorizontalAlignment="Center" Height="28" VerticalAlignment="Center" Width="332" Click="ValidateAnswers_Click" Name="validateAnswersButton" />
-        <TextBox Name="timerTextBox" HorizontalAlignment="Center" Margin="0,328,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" />
     </Grid>
 </Window>
