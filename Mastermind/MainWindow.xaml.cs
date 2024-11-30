@@ -3,7 +3,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Threading;
 
 namespace Mastermind
 {
@@ -13,12 +12,6 @@ namespace Mastermind
     public partial class MainWindow : Window
     {
         private int _attempts = 0;
-        private int _time = 0;
-
-        private DispatcherTimer _dispatcherTimer = new DispatcherTimer()
-        {
-            Interval = TimeSpan.FromSeconds(1)
-        };
 
         private readonly Color[] _colors = new Color[6]
         {
@@ -46,31 +39,6 @@ namespace Mastermind
         {
             InitializeComponent();
             GenerateColorCode();
-
-            _dispatcherTimer.Tick += _dispatcherTimer_Tick;
-        }
-
-        private void _dispatcherTimer_Tick(object sender, EventArgs e)
-        {
-            _time++;
-            if (_time == 10)
-            {
-                StopCountDown();
-                _attempts++;
-            }
-            UpdateTitle();
-        }
-
-        private void StopCountDown()
-        {
-            _dispatcherTimer.Stop();
-        }
-
-        private void StartCountDown()
-        {
-            _time = 0;
-            UpdateTitle();
-            _dispatcherTimer.Start();
         }
 
         private void GenerateColorCode()
@@ -84,12 +52,11 @@ namespace Mastermind
             }
 
             UpdateTitle();
-            StartCountDown();
         }
 
         private void UpdateTitle()
         {
-            Title = $"Mastermind ({string.Join(", ", _code.Select((color) => GetColorName(color)))}) timer: {_time}/10";
+            Title = $"Mastermind ({string.Join(", ", _code.Select((color) => GetColorName(color)))})";
             if (_attempts > 0)
             {
                 Title += $" - Attemps: {_attempts}";
@@ -139,13 +106,28 @@ namespace Mastermind
 
         private void ValidateAnswers_Click(object sender, RoutedEventArgs e)
         {
+            ClearBorders();
             _attempts++;
             UpdateTitle();
-            CheckCode();
-            StartCountDown();
         }
 
-        private void CheckCode()
+        private void ClearBorders()
+        {
+            border1.BorderBrush = Brushes.Transparent;
+            border2.BorderBrush = Brushes.Transparent;
+            border3.BorderBrush = Brushes.Transparent;
+            border4.BorderBrush = Brushes.Transparent;
+        }
+
+        private void ToggleDebug()
+        {
+        }
+
+        private void StartCountDown()
+        {
+        }
+
+        private void DtopCountDown()
         {
         }
     }
