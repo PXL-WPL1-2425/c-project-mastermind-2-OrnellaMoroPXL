@@ -27,7 +27,7 @@ namespace Mastermind
         private Label[] _labels = new Label[4];
         private int _attempts = 0;
         private int _score = 100;
-        private Label[,] _guessHistory = new Label[10, 4];
+        private Border[,] _guessHistory = new Border[10, 4];
 
         //close message enkel mid-game met dit
         private bool _gameIsOngoing = true;
@@ -132,7 +132,7 @@ namespace Mastermind
             {
                 if (_code[i] == _playerGuess[i])
                 {
-                    _labels[i].BorderBrush = Brushes.DarkRed;
+                    _labels[i].BorderBrush = Brushes.Black;
                     _labels[i].BorderThickness = new Thickness(3);
                 }
                 else if (_code.Contains(_playerGuess[i]))
@@ -152,11 +152,15 @@ namespace Mastermind
 
             for (int i = 0; i < _labels.Length; i++)
             {
-                _guessHistory[_attempts, i] = new Label()
+                _guessHistory[_attempts, i] = new Border()
                 {
-                    Background = _labels[i].Background,
-                    BorderBrush = _labels[i].BorderBrush.Clone(),
-                    BorderThickness = new Thickness(5)
+                    Width = 40,
+                    Height = 40,
+                    Background = _labels[i].Background, // Use the Background of the Label
+                    BorderBrush = _labels[i].BorderBrush.Clone(), // Clone the Label's BorderBrush
+                    BorderThickness = _labels[i].BorderThickness, // Use the Label's BorderThickness
+                    CornerRadius = new CornerRadius(20), // Half of Width/Height for a perfect circle
+                    Margin = new Thickness(5) // Add some spacing
                 };
             }
 
@@ -214,7 +218,7 @@ namespace Mastermind
 
             _attempts = 0;
             _score = 100;
-            _guessHistory = new Label[10, 4];
+            _guessHistory = new Border[10, 4];
             userGuessHistory.Children.Clear();
 
             UpdateAttempt();
@@ -240,25 +244,25 @@ namespace Mastermind
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    Label label = (Label)_guessHistory.GetValue(i, j);
+                    Border border = (Border)_guessHistory.GetValue(i, j);
 
-                    if (label == null)
+                    if (border == null)
                     {
                         continue;
                     }
 
-                    label.Height = 40;
-                    label.HorizontalAlignment = HorizontalAlignment.Center;
-                    label.Margin = new Thickness(5);
-                    label.VerticalAlignment = VerticalAlignment.Center;
-                    label.Width = 40;
+                    border.Height = 40;
+                    border.Width = 40;
+                    border.HorizontalAlignment = HorizontalAlignment.Center;
+                    border.VerticalAlignment = VerticalAlignment.Center;
+                    border.Margin = new Thickness(6);
 
-                    Grid.SetRow(label, i);
-                    Grid.SetColumn(label, j);
+                    Grid.SetRow(border, i);
+                    Grid.SetColumn(border, j);
 
-                    if (!userGuessHistory.Children.Contains(label))
+                    if (!userGuessHistory.Children.Contains(border))
                     {
-                        userGuessHistory.Children.Add(label);
+                        userGuessHistory.Children.Add(border);
                     }
                 }
             }
