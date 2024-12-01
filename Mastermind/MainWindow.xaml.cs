@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,8 +29,28 @@ namespace Mastermind
         private int _score = 100;
         private Label[,] _guessHistory = new Label[10, 4];
 
+        //close message enkel mid-game met dit
+        private bool _gameIsOngoing = true;
+
         // zogenaamde debug
         private bool _showSolution = true;
+
+        // override > space > onClosING!! kiezen uit de dropdown
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            if (_gameIsOngoing)
+            {
+                MessageBoxResult exitMessage = MessageBox.Show(
+                    $"Closing up? All unsolved codes will remain a mystery!", $"Attempt {_attempts}/10",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning);
+                if (exitMessage == MessageBoxResult.No)
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
 
         public MainWindow()
         {
@@ -151,6 +172,7 @@ namespace Mastermind
                    $"You did it! The code never stood a chance!\r\nUp for another round?", "WINNER", //<-message titel moet blijkbaar, anders error
                    MessageBoxButton.YesNo,
                    MessageBoxImage.Information);
+                _gameIsOngoing = false;
 
                 if (winMessage == MessageBoxResult.No)
                 {
@@ -167,6 +189,9 @@ namespace Mastermind
                     $"Close, but no cigar! The answer was: {string.Join(", ", _code)}.\r\nTry again?", "FAILED",
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Question);
+
+                _gameIsOngoing = false;
+
                 if (loseMessage == MessageBoxResult.No)
                 {
                     Close();
