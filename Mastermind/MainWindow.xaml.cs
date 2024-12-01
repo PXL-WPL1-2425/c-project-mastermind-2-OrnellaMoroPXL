@@ -26,6 +26,7 @@ namespace Mastermind
         private Label[] _labels = new Label[4];
         private int _Maxattempts = 10;
         private int _attempts = 0;
+        private Label[,] _guessHistory = new Label[10, 4];
         private bool _solution = true;
 
         public MainWindow()
@@ -116,8 +117,19 @@ namespace Mastermind
                 }
             }
 
+            for (int i = 0; i < _labels.Length; i++)
+            {
+                _guessHistory[_attempts, i] = new Label()
+                {
+                    Background = _labels[i].Background,
+                    BorderBrush = _labels[i].BorderBrush.Clone(),
+                    BorderThickness = _labels[i].BorderThickness
+                };
+            }
+
             _attempts++;
             UpdateAttempt();
+            UpdateHistory();
 
             if (_attempts >= 10)
             {
@@ -128,6 +140,36 @@ namespace Mastermind
         private void UpdateAttempt()
         {
             attemptLabel.Content = $"{_attempts}/10";
+        }
+
+        private void UpdateHistory()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    Label label = (Label)_guessHistory.GetValue(i, j);
+
+                    if (label == null)
+                    {
+                        continue;
+                    }
+
+                    label.Height = 40;
+                    label.HorizontalAlignment = HorizontalAlignment.Center;
+                    label.Margin = new Thickness(5);
+                    label.VerticalAlignment = VerticalAlignment.Center;
+                    label.Width = 40;
+
+                    Grid.SetRow(label, i);
+                    Grid.SetColumn(label, j);
+
+                    if (!userGuessHistory.Children.Contains(label))
+                    {
+                        userGuessHistory.Children.Add(label);
+                    }
+                }
+            }
         }
     }
 }
