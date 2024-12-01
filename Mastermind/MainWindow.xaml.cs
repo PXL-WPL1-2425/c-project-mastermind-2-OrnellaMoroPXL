@@ -24,6 +24,9 @@ namespace Mastermind
         private string[] _code = new string[4];
         private string[] _playerGuess = new string[4];
         private Label[] _labels = new Label[4];
+        private int _Maxattempts = 10;
+        private int _attempts = 0;
+        private bool _solution = true;
 
         public MainWindow()
         {
@@ -50,7 +53,11 @@ namespace Mastermind
 
         private void UpdateTitle()
         {
-            Title = $"Mastermind ({string.Join(", ", _code)})";
+            Title = $"Mastermind";
+            if (_solution)
+            {
+                Title += $" ({string.Join(", ", _code)})";
+            }
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -65,21 +72,29 @@ namespace Mastermind
                 if (comboBox == comboBox1)
                 {
                     _playerGuess[0] = selectedColor;
+                    colorLabel1.BorderBrush = Brushes.LightGray;
+                    colorLabel1.BorderThickness = new Thickness(1);
                     colorLabel1.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(selectedColor));
                 }
                 else if (comboBox == comboBox2)
                 {
                     _playerGuess[1] = selectedColor;
+                    colorLabel2.BorderBrush = Brushes.LightGray;
+                    colorLabel2.BorderThickness = new Thickness(1);
                     colorLabel2.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(selectedColor));
                 }
                 else if (comboBox == comboBox3)
                 {
                     _playerGuess[2] = selectedColor;
+                    colorLabel3.BorderBrush = Brushes.LightGray;
+                    colorLabel3.BorderThickness = new Thickness(1);
                     colorLabel3.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(selectedColor));
                 }
                 else if (comboBox == comboBox4)
                 {
                     _playerGuess[3] = selectedColor;
+                    colorLabel4.BorderBrush = Brushes.LightGray;
+                    colorLabel4.BorderThickness = new Thickness(1);
                     colorLabel4.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(selectedColor));
                 }
             }
@@ -100,6 +115,19 @@ namespace Mastermind
                     _labels[i].BorderThickness = new Thickness(3);
                 }
             }
+
+            _attempts++;
+            UpdateAttempt();
+
+            if (_attempts >= 10)
+            {
+                attemptLabel.Content = $"10/10\r\nGame over";
+            }
+        }
+
+        private void UpdateAttempt()
+        {
+            attemptLabel.Content = $"{_attempts}/10";
         }
     }
 }

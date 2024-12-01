@@ -52,5 +52,7 @@
             <Label Name="colorLabel4" Width="169" Height="100" />
         </Border>
         <Button Content="check answers" HorizontalAlignment="Center" Height="28" VerticalAlignment="Center" Width="332" Click="ValidateAnswers_Click" Name="validateAnswersButton" />
+        <Label Content="Attempts" HorizontalAlignment="Left" Margin="598,199,0,0" VerticalAlignment="Top" />
+        <Label Name="attemptLabel" Content="0/10" HorizontalAlignment="Left" Margin="682,199,0,0" VerticalAlignment="Top" />
     </Grid>
 </Window>
