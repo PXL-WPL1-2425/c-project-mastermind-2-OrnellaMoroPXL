@@ -24,8 +24,8 @@ namespace Mastermind
         private string[] _code = new string[4];
         private string[] _playerGuess = new string[4];
         private Label[] _labels = new Label[4];
-        private int _Maxattempts = 10;
         private int _attempts = 0;
+        private int _score = 100;
         private Label[,] _guessHistory = new Label[10, 4];
         private bool _solution = true;
 
@@ -114,6 +114,12 @@ namespace Mastermind
                 {
                     _labels[i].BorderBrush = Brushes.Wheat;
                     _labels[i].BorderThickness = new Thickness(3);
+                    //kleur op de foute plaats = -1 punt
+                    _score = _score - 1;
+                }
+                else // als m'n kleur totaal niet aanwezig is, -2 punten
+                {
+                    _score = _score - 2;
                 }
             }
 
@@ -129,12 +135,18 @@ namespace Mastermind
 
             _attempts++;
             UpdateAttempt();
+            UpdateScore();
             UpdateHistory();
 
             if (_attempts >= 10)
             {
                 attemptLabel.Content = $"10/10\r\nGame over";
             }
+        }
+
+        private void UpdateScore()
+        {
+            scoreLabel.Content = _score;
         }
 
         private void UpdateAttempt()
