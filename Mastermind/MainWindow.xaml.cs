@@ -27,7 +27,9 @@ namespace Mastermind
         private int _attempts = 0;
         private int _score = 100;
         private Label[,] _guessHistory = new Label[10, 4];
-        private bool _solution = true;
+
+        // zogenaamde debug
+        private bool _showSolution = true;
 
         public MainWindow()
         {
@@ -55,7 +57,7 @@ namespace Mastermind
         private void UpdateTitle()
         {
             Title = $"Mastermind";
-            if (_solution)
+            if (_showSolution)
             {
                 Title += $" ({string.Join(", ", _code)})";
             }
@@ -103,6 +105,8 @@ namespace Mastermind
 
         private void ValidateAnswers_Click(object sender, RoutedEventArgs e)
         {
+            bool answerIsGuessed = true;
+
             for (int i = 0; i < 4; i++)
             {
                 if (_code[i] == _playerGuess[i])
@@ -116,10 +120,12 @@ namespace Mastermind
                     _labels[i].BorderThickness = new Thickness(3);
                     //kleur op de foute plaats = -1 punt
                     _score = _score - 1;
+                    answerIsGuessed = false;
                 }
                 else // als m'n kleur totaal niet aanwezig is, -2 punten
                 {
                     _score = _score - 2;
+                    answerIsGuessed = false;
                 }
             }
 
@@ -138,10 +144,59 @@ namespace Mastermind
             UpdateScore();
             UpdateHistory();
 
-            if (_attempts >= 10)
+            // als antwoord juist is -> "wil je verderspelen?"
+            if (answerIsGuessed)
             {
-                attemptLabel.Content = $"10/10\r\nGame over";
+                MessageBoxResult winMessage = MessageBox.Show(
+                   $"You did it! The code never stood a chance!\r\nUp for another round?", "WINNER", //<-message titel moet blijkbaar, anders error
+                   MessageBoxButton.YesNo,
+                   MessageBoxImage.Information);
+
+                if (winMessage == MessageBoxResult.No)
+                {
+                    Close();
+                }
+                else
+                {
+                    NewGame();
+                }
             }
+            else if (_attempts == 10)
+            {
+                MessageBoxResult loseMessage = MessageBox.Show(
+                    $"Close, but no cigar! The answer was: {string.Join(", ", _code)}.\r\nTry again?", "FAILED",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question);
+                if (loseMessage == MessageBoxResult.No)
+                {
+                    Close();
+                }
+                else
+                {
+                    NewGame();
+                }
+            }
+        }
+
+        private void NewGame()
+        {
+            for (int i = 0; i < _labels.Length; i++)
+            {
+                _labels[i].Background = Brushes.Transparent;
+                _labels[i].BorderBrush = Brushes.LightGray;
+                _labels[i].BorderThickness = new Thickness(1);
+            }
+
+            _attempts = 0;
+            _score = 100;
+            _guessHistory = new Label[10, 4];
+            userGuessHistory.Children.Clear();
+
+            UpdateAttempt();
+            UpdateScore();
+            UpdateHistory();
+
+            GenerateColorCode();
         }
 
         private void UpdateScore()
