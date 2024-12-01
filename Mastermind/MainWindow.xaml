@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mastermind"
         mc:Ignorable="d"
-        Title="Mastermind" Height="450" Width="800">
+        Title="Mastermind" Height="880" Width="535">
     <Grid>
-        <ComboBox HorizontalAlignment="Left" Height="25" Margin="20,35,0,0" VerticalAlignment="Top" Width="169" Name="comboBox1" SelectionChanged="ComboBox_SelectionChanged">
+        <ComboBox HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" VerticalAlignment="Top" Width="120" Name="comboBox1" SelectionChanged="ComboBox_SelectionChanged">
             <ComboBoxItem Content="Red" />
             <ComboBoxItem Content="Orange" />
             <ComboBoxItem Content="Yellow" />
@@ -15,10 +15,10 @@
             <ComboBoxItem Content="Blue" />
             <ComboBoxItem Content="White" />
         </ComboBox>
-        <Border HorizontalAlignment="Left" Margin="20,65,0,0" VerticalAlignment="Top" BorderBrush="Transparent" BorderThickness="4" Name="border1">
-            <Label Name="colorLabel1" Width="169" Height="100" />
-        </Border>
-        <ComboBox HorizontalAlignment="Left" Height="25" Margin="220,35,0,0" VerticalAlignment="Top" Width="169" Name="comboBox2" SelectionChanged="ComboBox_SelectionChanged">
+
+        <Label Name="colorLabel1" Width="120" Height="120" HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top" BorderBrush="LightGray" BorderThickness="1" />
+
+        <ComboBox HorizontalAlignment="Left" Height="25" Margin="135,10,0,0" VerticalAlignment="Top" Width="120" Name="comboBox2" SelectionChanged="ComboBox_SelectionChanged">
             <ComboBoxItem Content="Red" />
             <ComboBoxItem Content="Orange" />
             <ComboBoxItem Content="Yellow" />
@@ -26,10 +26,10 @@
             <ComboBoxItem Content="Blue" />
             <ComboBoxItem Content="White" />
         </ComboBox>
-        <Border Name="border2" HorizontalAlignment="Left" Margin="220,65,0,0" VerticalAlignment="Top" BorderBrush="Transparent" BorderThickness="4">
-            <Label Name="colorLabel2" Width="169" Height="100" />
-        </Border>
-        <ComboBox HorizontalAlignment="Left" Height="25" Margin="412,35,0,0" VerticalAlignment="Top" Width="169" Name="comboBox3" SelectionChanged="ComboBox_SelectionChanged">
+
+        <Label Name="colorLabel2" Width="120" Height="120" HorizontalAlignment="Left" Margin="135,37,0,0" VerticalAlignment="Top" BorderBrush="LightGray" BorderThickness="1" />
+
+        <ComboBox HorizontalAlignment="Left" Height="25" Margin="260,10,0,0" VerticalAlignment="Top" Width="120" Name="comboBox3" SelectionChanged="ComboBox_SelectionChanged">
             <ComboBoxItem Content="Red" />
             <ComboBoxItem Content="Orange" />
             <ComboBoxItem Content="Yellow" />
@@ -37,10 +37,10 @@
             <ComboBoxItem Content="Blue" />
             <ComboBoxItem Content="White" />
         </ComboBox>
-        <Border  Name="border3" HorizontalAlignment="Left" Margin="412,65,0,0" VerticalAlignment="Top" BorderBrush="Transparent" BorderThickness="4">
-            <Label Name="colorLabel3" Width="169" Height="100" />
-        </Border>
-        <ComboBox HorizontalAlignment="Left" Height="25" Margin="598,35,0,0" VerticalAlignment="Top" Width="169" Name="comboBox4" SelectionChanged="ComboBox_SelectionChanged">
+
+        <Label Name="colorLabel3" Width="120" Height="120" HorizontalAlignment="Left" Margin="260,37,0,0" VerticalAlignment="Top" BorderBrush="LightGray" BorderThickness="1" />
+
+        <ComboBox HorizontalAlignment="Left" Height="25" Margin="385,10,0,0" VerticalAlignment="Top" Width="120" Name="comboBox4" SelectionChanged="ComboBox_SelectionChanged">
             <ComboBoxItem Content="Red" />
             <ComboBoxItem Content="Orange" />
             <ComboBoxItem Content="Yellow" />
@@ -48,11 +48,11 @@
             <ComboBoxItem Content="Blue" />
             <ComboBoxItem Content="White" />
         </ComboBox>
-        <Border Name="border4" HorizontalAlignment="Left" Margin="598,65,0,0" VerticalAlignment="Top" BorderBrush="Transparent" BorderThickness="4">
-            <Label Name="colorLabel4" Width="169" Height="100" />
-        </Border>
-        <Button Content="check answers" HorizontalAlignment="Center" Height="28" VerticalAlignment="Center" Width="332" Click="ValidateAnswers_Click" Name="validateAnswersButton" />
-        <Label Content="Attempts" HorizontalAlignment="Left" Margin="598,199,0,0" VerticalAlignment="Top" />
-        <Label Name="attemptLabel" Content="0/10" HorizontalAlignment="Left" Margin="682,199,0,0" VerticalAlignment="Top" />
+
+        <Label Name="colorLabel4" Width="120" Height="120" HorizontalAlignment="Left" Margin="385,37,0,0" VerticalAlignment="Top" BorderBrush="LightGray" BorderThickness="1" />
+
+        <Button Content="check answers" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="332" Click="ValidateAnswers_Click" Name="validateAnswersButton" Margin="10,166,0,0" />
+        <Label Content="Attempts" HorizontalAlignment="Left" Margin="385,161,0,0" VerticalAlignment="Top" />
+        <Label Name="attemptLabel" Content="0/10" HorizontalAlignment="Left" Margin="450,161,0,0" VerticalAlignment="Top" />
     </Grid>
 </Window>
