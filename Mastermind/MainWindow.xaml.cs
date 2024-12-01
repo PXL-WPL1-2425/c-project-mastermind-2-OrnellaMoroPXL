@@ -33,7 +33,7 @@ namespace Mastermind
         private bool _gameIsOngoing = true;
 
         // zogenaamde debug
-        private bool _showSolution = true;
+        private bool _showSolution = false;
 
         // override > space > onClosING!! kiezen uit de dropdown
         protected override void OnClosing(CancelEventArgs e)
@@ -97,28 +97,28 @@ namespace Mastermind
                 {
                     _playerGuess[0] = selectedColor;
                     colorLabel1.BorderBrush = Brushes.LightGray;
-                    colorLabel1.BorderThickness = new Thickness(1);
+                    colorLabel1.BorderThickness = new Thickness(3);
                     colorLabel1.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(selectedColor));
                 }
                 else if (comboBox == comboBox2)
                 {
                     _playerGuess[1] = selectedColor;
                     colorLabel2.BorderBrush = Brushes.LightGray;
-                    colorLabel2.BorderThickness = new Thickness(1);
+                    colorLabel2.BorderThickness = new Thickness(3);
                     colorLabel2.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(selectedColor));
                 }
                 else if (comboBox == comboBox3)
                 {
                     _playerGuess[2] = selectedColor;
                     colorLabel3.BorderBrush = Brushes.LightGray;
-                    colorLabel3.BorderThickness = new Thickness(1);
+                    colorLabel3.BorderThickness = new Thickness(3);
                     colorLabel3.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(selectedColor));
                 }
                 else if (comboBox == comboBox4)
                 {
                     _playerGuess[3] = selectedColor;
                     colorLabel4.BorderBrush = Brushes.LightGray;
-                    colorLabel4.BorderThickness = new Thickness(1);
+                    colorLabel4.BorderThickness = new Thickness(3);
                     colorLabel4.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(selectedColor));
                 }
             }
@@ -156,7 +156,7 @@ namespace Mastermind
                 {
                     Background = _labels[i].Background,
                     BorderBrush = _labels[i].BorderBrush.Clone(),
-                    BorderThickness = _labels[i].BorderThickness
+                    BorderThickness = new Thickness(5)
                 };
             }
 
@@ -169,7 +169,7 @@ namespace Mastermind
             if (answerIsGuessed)
             {
                 MessageBoxResult winMessage = MessageBox.Show(
-                   $"You did it! The code never stood a chance!\r\nUp for another round?", "WINNER", //<-message titel moet blijkbaar, anders error
+                   $"You did it in {_attempts} tries! The code never stood a chance!\r\nUp for another round?", "WINNER", //<-message titel moet blijkbaar, anders error
                    MessageBoxButton.YesNo,
                    MessageBoxImage.Information);
                 _gameIsOngoing = false;
